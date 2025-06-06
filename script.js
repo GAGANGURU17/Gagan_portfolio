@@ -881,3 +881,51 @@ window.onload = function() {
         }
     }
 };
+
+// Dynamic testimonials loading
+const testimonials = [
+    {
+        id: 1,
+        category: 'work',
+        quote: "Gagan demonstrated exceptional problem-solving skills...",
+        rating: 5,
+        author: "Priya Sharma",
+        role: "Data Science Lead, IQVIA"
+    },
+    // Add more testimonials here
+];
+
+function loadTestimonials(filter = 'all') {
+    const container = document.getElementById('testimonialsContainer');
+    container.innerHTML = '';
+    
+    const filtered = filter === 'all' 
+        ? testimonials 
+        : testimonials.filter(t => t.category === filter);
+    
+    filtered.forEach(testimonial => {
+        container.innerHTML += `
+            <div class="testimonial-card" data-category="${testimonial.category}">
+                <div class="testimonial-content">
+                    <p>${testimonial.quote}</p>
+                </div>
+                <div class="testimonial-author">
+                    <h4>${testimonial.author}</h4>
+                    <p>${testimonial.role}</p>
+                </div>
+            </div>
+        `;
+    });
+}
+
+// Initialize testimonials
+loadTestimonials();
+
+// Filter testimonials
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        loadTestimonials(this.dataset.filter);
+    });
+});
